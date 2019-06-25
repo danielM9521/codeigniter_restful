@@ -19,54 +19,78 @@ class Usuarios extends CI_Controller
 
 	public function getAll()
 	{
-		// header("Access-Control-Allow-Methods: GET");
-		$data = ['usuarios' => $this->UsuariosModel->getAll()];
-		// //Mostrando el json 
-		echo json_encode($data);
 
-
-
-
+		if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+			// header("Access-Control-Allow-Methods: GET");
+			$data = ['usuarios' => $this->UsuariosModel->getAll()];
+			// //Mostrando el json
+			echo json_encode($data);
+		} else {
+			echo "ERRORAZO";
+		}
 	}
 
 	//obtener id
 	public function getById($id)
 	{
-		header("Access-Control-Allow-Methods: GET");
+		//header("Access-Control-Allow-Methods: GET");
 		//obteniendo el registro de la db
-		$dato = ['usuario' => $this->UsuariosModel->getById($id)];
-		//enviando el registro a la bd
-		echo json_encode($dato);
+		if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+			$dato = ['usuario' => $this->UsuariosModel->getById($id)];
+			//enviando el registro a la bd
+			echo json_encode($dato);
+		} else {
+			echo "ERRORAZO";
+		}
 	}
 
 	public function insert()
 	{
-		$data = "";
-		if (isset($_POST)) {
-			$data = $_POST;
+
+		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+			$data = "";
+			if (isset($_POST)) {
+				$data = $_POST;
+			}
+			$result = $this->UsuariosModel->insert($data);
+			echo $result;
+		} else {
+			echo "ERRORAZO";
 		}
-		$result = $this->UsuariosModel->insert($data);
-		echo $result;
 	}
 
 	public function update()
 	{
-		      //  header("Access-Control-Allow-Origin: *");
+
+
+
+		//  header("Access-Control-Allow-Origin: *");
 		header("Content-Type: application/json;");
-		      //   header("Access-Control-Allow-Methods: PUT");
-		      //  header("Access-Control-Max-Age: 3600");
-		      //  header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
-		$data = "";
-		if (isset($_POST)) {
-			$data = $_POST;
+		//   header("Access-Control-Allow-Methods: PUT");
+		//  header("Access-Control-Max-Age: 3600");
+		//  header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+		if ($_SERVER['REQUEST_METHOD'] == 'PUT') {
+			$data = "";
+			if (isset($_POST)) {
+				$data = $_POST;
+			}
+			$result = $this->UsuariosModel->update($data);
+			echo $result;
+		} else {
+			echo "ERRORAZO";
 		}
-		$result = $this->UsuariosModel->update($data);
-		echo $result;
 	}
+
+
 
 	public function delete($id)
 	{
-		$result = $this->UsuariosModel->delete($id);
-		echo $result;
+        if ($_SERVER['REQUEST_METHOD'] == 'DELETE') {
+            $result = $this->UsuariosModel->delete($id);
+            echo $result;
+        }else{
+					echo "ERRORAZO";
+				}
+
 	}
 }

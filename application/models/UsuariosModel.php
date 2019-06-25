@@ -41,8 +41,9 @@ class UsuariosModel extends CI_Model
 
     //Metodo Update
     public function update($data){
-   
-        $result=$this->db->update('usuario',$data);
+
+        $sql="UPDATE usuario SET nombre=?, apellido=? WHERE id_usuario=?;";
+        $result=$this->db->query($sql,$data);
         if ($result){
             return "Registro actualizado correctamente".$result;
         }else{
