@@ -20,20 +20,19 @@ class Usuarios extends CI_Controller
 	public function getAll()
 	{
 		header("Access-Control-Allow-Origin: *");
-		//	header("Content-Type: application/json;");
+		header("Content-Type: application/json;");
 		header("Access-Control-Allow-Methods: GET");
 		if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-			// header("Access-Control-Allow-Methods: GET");
-			header("Content-Type: application/json;");
-			$data = ['usuarios' => $this->UsuariosModel->getAll()];
+			$datos = ['usuarios' => $this->UsuariosModel->getAll()];
 			// //Mostrando el json
-			echo json_encode($data);
+			echo json_encode($datos);
 		} else {
-			echo "ERRORAZO";
+			$error = array('Error' => 'No se puede obtener los registros');
+			echo json_encode($error);
 		}
 	}
 
-	//obtener id
+	//Obtener registro por su id
 	public function getById($id)
 	{
 		header("Access-Control-Allow-Origin: *");
@@ -42,10 +41,10 @@ class Usuarios extends CI_Controller
 		//obteniendo el registro de la db
 		if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 			$dato = ['usuario' => $this->UsuariosModel->getById($id)];
-			//enviando el registro a la bd
 			echo json_encode($dato);
 		} else {
-			echo "ERRORAZO";
+			$error = array('Error' => 'No se puede obtener los registros');
+			echo json_encode($error);
 		}
 	}
 
@@ -59,19 +58,18 @@ class Usuarios extends CI_Controller
 			if ($_SERVER['CONTENT_TYPE'] == 'application/json') {
 				$post = file_get_contents('php://input');
 				$post = json_decode($post);
-				var_dump($post);
 				$result = $this->UsuariosModel->insert($post);
-				echo $result . "por application/json";
+				echo $result . ", por application/json";
 			} elseif ($_SERVER['CONTENT_TYPE'] == 'application/x-www-form-urlencoded') {
-				$data = "";
-				if (isset($_POST)) {
+					if (isset($_POST)) {
 					$data = $_POST;
 				}
 				$result = $this->UsuariosModel->insert($data);
-				echo $result;
+				echo $result. ", por application/x-www-form-urlencoded";
 			}
 		} else {
-			echo "ERRORAZO";
+			$error = array('Error' => 'No se puede ingresar el nuevo registro');
+			echo json_encode($error);
 		}
 	}
 
@@ -85,14 +83,15 @@ class Usuarios extends CI_Controller
 				$_PUT = file_get_contents('php://input');
 				$_PUT = json_decode($_PUT);
 				$result = $this->UsuariosModel->update($_PUT);
-				echo $result . "por application/json";
+				echo $result . ", por application/json";
 			} elseif ($_SERVER['CONTENT_TYPE'] == 'application/x-www-form-urlencoded') {
 				parse_str(file_get_contents('php://input'), $_PUT);
 				$result = $this->UsuariosModel->update($_PUT);
-				echo $result . "por application/x-www-form-urlencoded";
+				echo $result . ", por application/x-www-form-urlencoded";
 			}
 		} else {
-			echo "ERRORAZO";
+			$error = array('Error' => 'No se puede actualizar el registro');
+			echo json_encode($error);
 		}
 	}
 
@@ -105,8 +104,8 @@ class Usuarios extends CI_Controller
 			$result = $this->UsuariosModel->delete($id);
 			echo $result;
 		} else {
-			echo "ERRORAZO";
+			$error = array('Error' => 'No se puede eliminar el registro');
+			echo json_encode($error);
 		}
 	}
-	
 }
