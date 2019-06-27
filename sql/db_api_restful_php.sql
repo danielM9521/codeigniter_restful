@@ -10,4 +10,5 @@ CREATE TABLE usuario(
 INSERT INTO usuario (id_usuario, nombre, apellido) VALUES
 (1, 'Esteban', 'Quito'),
 (2, 'Daniel', 'Murillo'),
-(3, 'Adolf', 'Hitler');
+(3, 'Nayib', 'Calleja');
+
